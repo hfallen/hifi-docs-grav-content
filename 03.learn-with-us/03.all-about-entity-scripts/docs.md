@@ -477,7 +477,6 @@ Entities.addEntity({
 	name: "Cube Spawner",
 	"userData": "{     \"grabbableKey\": {   \"wantsTrigger\": true     },     \"wearable\": {   \"joints\": {   \"RightHand\": [   {    \"x\": 0.0813,             \"y\": 0.0452,     \"z\": 0.0095   },    {     \"x\": -0.3946,             \"y\": -0.6604,   \"z\": 0.4748,    \"w\": -0.4275    }    ],         \"LeftHand\": [    {    \"x\": -0.0881,     \"y\": 0.0259,    \"z\": 0.0159    },    {     \"x\": 0.4427,     \"y\": -0.6519,     \"z\": 0.4592,             \"w\": 0.4099    }    ]    }    }   }"
 });
-
 ```
 
 However, we’ve caused a slight problem for ourselves by making our spawner grabbable - it means that we can no longer select it to generate cubes! To fix it, we’ll be refactoring our spawnCube.js script by adding in a function that will let us generate new cubes when we have our cube spawner equipped.We’ll be using a prototype in our refactor, and will start adding more nuanced behaviors to our script to detect various states of grabbing and holding our spawner object.
@@ -488,14 +487,10 @@ Head back into spawnCube.js - we’ll be modifying this significantly to take ad
 
 We’ll start by adding in an array that stores references to our right and left controller triggers. We will also create an empty variable that we’ll call ‘hand’, which will store a reference to whichever hand picks up the cube spawner. Under your cubeList array, add the following to your spawnCube.js script:
 
-<syntaxhiglight lang="javascript">
-
 ```
-var TRIGGER_CONTROLS = [
-
+var TRIGGER_CONTROLS = [ Controller.Standard.LT, Controller.Standard.RT, ]; 
+var hand; 
 ```
-
-Controller.Standard.LT, Controller.Standard.RT, ]; var hand; </syntaxhighlight>
 
 Next, we’ll set up our prototype functions. These functions will be a pseudo-constructor for our cube spawner, and contain functions that will wrap around our createCube and deleteAllCubes functions when specific events occur. Under the last bit of code we just added, copy and paste the following:
 
